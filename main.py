@@ -54,5 +54,9 @@ days_pending = (pd.to_datetime('today') - priority_date).days
 df_pending = df[(df['DECISION_TIME'] >= days_pending - 5) & (df['DECISION_TIME'] <= days_pending + 5)]
 print(df_pending['CASE_STATUS'].value_counts(normalize=True))
 # Get decile of the decision time
-print('Decile of the decision time: ')
+print('Decile of the decision time in total: ')
 print(df['DECISION_TIME'].lt(days_pending).sum()/df.shape[0])
+print(f'Decile of the decision time for soc {soc_codes[0]}: ')
+print(df_soc['DECISION_TIME'].lt(days_pending).sum()/df_soc.shape[0])
+print(f'Decile of the decision time for lawyer firm {law_firms}: ')
+print(df_law['DECISION_TIME'].lt(days_pending).sum()/df_law.shape[0])
