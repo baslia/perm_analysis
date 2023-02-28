@@ -48,6 +48,11 @@ print(df_law['DECISION_TIME'].mean())
 print(df_law['DECISION_TIME'].describe(percentiles=[0.25, 0.5, 0.75, 0.80, 0.85, 0.9, 0.95, 0.99]))
 #%%
 # Get the approval rate by waiting time
-days_pending = 280
+priority_date = pd.to_datetime('2022-05-19')
+# get the number of days since the priority date and now
+days_pending = (pd.to_datetime('today') - priority_date).days
 df_pending = df[(df['DECISION_TIME'] >= days_pending - 5) & (df['DECISION_TIME'] <= days_pending + 5)]
 print(df_pending['CASE_STATUS'].value_counts(normalize=True))
+# Get decile of the decision time
+print('Decile of the decision time: ')
+print(df['DECISION_TIME'].lt(days_pending).sum()/df.shape[0])
