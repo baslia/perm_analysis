@@ -32,6 +32,7 @@ df['PW_SOC_CODE'] = df['PW_SOC_CODE'].str[:7]
 # Get the mean decision time for a given SOC codes
 soc_codes = ['15-2031']
 df_soc = df[df['PW_SOC_CODE'].isin(soc_codes)]
+print('Statistics for SOC code: ', soc_codes)
 print(df_soc.groupby('CASE_STATUS')['DECISION_TIME'].mean())
 print(df_soc['DECISION_TIME'].describe(percentiles=[0.25, 0.5, 0.75, 0.80, 0.85, 0.9, 0.95, 0.99]))
 
@@ -43,6 +44,7 @@ df_law = df[~df['AGENT_ATTORNEY_FIRM_NAME'].isna()]
 df_law['AGENT_ATTORNEY_FIRM_NAME'] = df_law['AGENT_ATTORNEY_FIRM_NAME'].astype(str)
 df_law['AGENT_ATTORNEY_FIRM_NAME'] = df_law['AGENT_ATTORNEY_FIRM_NAME'].str.lower()
 df_law = df_law[df_law['AGENT_ATTORNEY_FIRM_NAME'].str.contains(law_firms)]
+print(f'Statistics for law firm: {law_firms}')
 print(df_law['CASE_STATUS'].value_counts(normalize=True))
 print(df_law['DECISION_TIME'].mean())
 print(df_law['DECISION_TIME'].describe(percentiles=[0.25, 0.5, 0.75, 0.80, 0.85, 0.9, 0.95, 0.99]))
