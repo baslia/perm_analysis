@@ -22,6 +22,9 @@ print(df.groupby('CASE_STATUS')['DECISION_TIME'].mean())
 
 # Get the mean decision time for all cases
 print(df['DECISION_TIME'].mean())
+# Get statistics about the decision time
+print(df['DECISION_TIME'].describe(percentiles=[0.25, 0.5, 0.75, 0.80, 0.85, 0.9, 0.95, 0.99]))
+
 #%%
 # Keep only the first 7 character of SOC codes
 df['PW_SOC_CODE'] = df['PW_SOC_CODE'].str[:7]
@@ -30,6 +33,7 @@ df['PW_SOC_CODE'] = df['PW_SOC_CODE'].str[:7]
 soc_codes = ['15-2031']
 df_soc = df[df['PW_SOC_CODE'].isin(soc_codes)]
 print(df_soc.groupby('CASE_STATUS')['DECISION_TIME'].mean())
+print(df_soc['DECISION_TIME'].describe(percentiles=[0.25, 0.5, 0.75, 0.80, 0.85, 0.9, 0.95, 0.99]))
 
 #%%
 # Get the mean decision time for a given law firm
@@ -41,7 +45,7 @@ df_law['AGENT_ATTORNEY_FIRM_NAME'] = df_law['AGENT_ATTORNEY_FIRM_NAME'].str.lowe
 df_law = df_law[df_law['AGENT_ATTORNEY_FIRM_NAME'].str.contains(law_firms)]
 print(df_law['CASE_STATUS'].value_counts(normalize=True))
 print(df_law['DECISION_TIME'].mean())
-
+print(df_law['DECISION_TIME'].describe(percentiles=[0.25, 0.5, 0.75, 0.80, 0.85, 0.9, 0.95, 0.99]))
 #%%
 # Get the approval rate by waiting time
 days_pending = 280
