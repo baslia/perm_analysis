@@ -89,7 +89,10 @@ print(df_denial.iloc[:, 130].value_counts(normalize=True))
 # Denial rate by decision date
 df['DECISION_DATE_month'] = df['DECISION_DATE'].dt.to_period('M')
 # certified rate by decision date month
-print(df[['CASE_STATUS', 'DECISION_DATE_month']].groupby('DECISION_DATE_month', as_index=False).value_counts(normalize=True))
+df_hist = df[['CASE_STATUS', 'DECISION_DATE_month']].groupby('DECISION_DATE_month', as_index=False).value_counts(normalize=True)
+print(df_hist)
+# df.hist(column="proportion")
+
 
 
 def get_certified_rate(df):
