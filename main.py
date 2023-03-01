@@ -71,10 +71,17 @@ df_denial['EMPLOYER_NAME'] = df_denial['EMPLOYER_NAME'].str.lower()
 print('Number of denied cases: ')
 print(df_denial.shape[0])
 # Top SOC TITLE for denied cases
-print(df_denial['PW_SOC_TITLE'].value_counts().head(10))
+print(df_denial['PW_SOC_TITLE'].value_counts().head(20))
+print(df_denial['PW_SOC_TITLE'].value_counts().tail(20))
 # Top Employer count for denied cases
 print(df_denial['EMPLOYER_NAME'].value_counts().head(10))
 # Top education level for denied cases
 print(df_denial['MINIMUM_EDUCATION'].value_counts().head(10))
 # Top field of studies for denied cases
 print(df_denial['MAJOR_FIELD_OF_STUDY'].value_counts().head(10))
+# Top PW skill levels for denied cases
+print(df_denial['PW_SKILL_LEVEL'].value_counts(normalize=True))
+print(df['PW_SKILL_LEVEL'].value_counts(normalize=True))
+# Foreign worker education level
+print(df_denial.iloc[:, 130].value_counts(normalize=True))
+
