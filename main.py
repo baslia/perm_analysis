@@ -62,3 +62,19 @@ print(f'Decile of the decision time for soc {soc_codes[0]}: ')
 print(df_soc['DECISION_TIME'].lt(days_pending).sum()/df_soc.shape[0])
 print(f'Decile of the decision time for lawyer firm {law_firms}: ')
 print(df_law['DECISION_TIME'].lt(days_pending).sum()/df_law.shape[0])
+
+#%%
+# Denial analysis
+df_denial = df[df['CASE_STATUS'] == 'Denied']
+df_denial['PW_SOC_TITLE'] = df_denial['PW_SOC_TITLE'].str.lower()
+df_denial['EMPLOYER_NAME'] = df_denial['EMPLOYER_NAME'].str.lower()
+print('Number of denied cases: ')
+print(df_denial.shape[0])
+# Top SOC TITLE for denied cases
+print(df_denial['PW_SOC_TITLE'].value_counts().head(10))
+# Top Employer count for denied cases
+print(df_denial['EMPLOYER_NAME'].value_counts().head(10))
+# Top education level for denied cases
+print(df_denial['MINIMUM_EDUCATION'].value_counts().head(10))
+# Top field of studies for denied cases
+print(df_denial['MAJOR_FIELD_OF_STUDY'].value_counts().head(10))
