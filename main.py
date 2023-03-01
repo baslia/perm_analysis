@@ -84,4 +84,31 @@ print(df_denial['PW_SKILL_LEVEL'].value_counts(normalize=True))
 print(df['PW_SKILL_LEVEL'].value_counts(normalize=True))
 # Foreign worker education level
 print(df_denial.iloc[:, 130].value_counts(normalize=True))
+#%%
+# Build some visualizations
+# Denial rate by decision date
+df['DECISION_DATE_month'] = df['DECISION_DATE'].dt.to_period('M')
+# certified rate by decision date month
+print(df[['CASE_STATUS', 'DECISION_DATE_month']].groupby('DECISION_DATE_month', as_index=False).value_counts(normalize=True))
 
+
+def get_certified_rate(df):
+    df = pd.DataFrame(df)
+    try:
+        result = df.value_counts(normalize=True)[1]
+    except:
+        result = 0
+    return result
+
+
+df_sorted = df.sort_values('DECISION_TIME')
+df_sorted['CERTIFIED_INT'] = df_sorted['CASE_STATUS'].map({'Certified': 1, 'Denied': 0})
+window = 10
+df_sorted['CERTIFIED_RATE'] = df_sorted.rolling(window=window, on='DECISION_TIME', axis=0)['CERTIFIED_INT'].apply(get_certified_rate)
+#%%
+import matplotlib.pyplot as plt
+plt.plot(df_sorted['DECISION_TIME'], df_sorted['CERTIFIED_RATE'])
+plt.xlim(df_sorted['DECISION_TIME'].iloc[0], 360)
+plt.xlabel('Days to results')
+plt.ylabel('Approval rate')
+plt.show()
