@@ -1,6 +1,6 @@
 import pandas as pd
 
-data_url = 'https://www.dol.gov/sites/dolgov/files/ETA/oflc/pdfs/PERM_Disclosure_Data_FY2023_Q1.xlsx'
+data_url = 'https://www.dol.gov/sites/dolgov/files/ETA/oflc/pdfs/PERM_Disclosure_Data_FY2023_Q2.xlsx'
 
 # Read the data from the URL
 df = pd.read_excel(data_url)
@@ -30,11 +30,15 @@ print(df['DECISION_TIME'].describe(percentiles=[0.25, 0.5, 0.75, 0.80, 0.85, 0.9
 #%%
 # Keep only the first 7 character of SOC codes
 df['PW_SOC_CODE'] = df['PW_SOC_CODE'].str[:7]
+df['PW_SOC_CODE_ROOT'] = df['PW_SOC_CODE'].str[:2]
 
 # Get the mean decision time for a given SOC codes
 soc_codes = ['15-2031']
+soc_codes_root = ['15']
 df_soc = df[df['PW_SOC_CODE'].isin(soc_codes)]
+df_soc_root = df[df['PW_SOC_CODE_ROOT'].isin(soc_codes_root)]
 print('Statistics for SOC code: ', soc_codes)
+print(df_soc['CASE_STATUS'].value_counts(normalize=True))
 print(df_soc.groupby('CASE_STATUS')['DECISION_TIME'].mean())
 print(df_soc['DECISION_TIME'].describe(percentiles=[0.25, 0.5, 0.75, 0.80, 0.85, 0.9, 0.95, 0.99]))
 
@@ -95,6 +99,8 @@ df_hist = df[['CASE_STATUS', 'DECISION_DATE_month']].groupby('DECISION_DATE_mont
 print(df_hist)
 df_hist_law = df_law[['CASE_STATUS', 'DECISION_DATE_month']].groupby('DECISION_DATE_month', as_index=False).value_counts(normalize=True)
 print(df_hist_law)
+df_hist_soc_root = df_soc_root[['CASE_STATUS', 'DECISION_DATE_month', 'PW_SKILL_LEVEL']].groupby(['DECISION_DATE_month', 'PW_SKILL_LEVEL'], as_index=False).value_counts(normalize=True)
+print(df_hist_soc_root)
 
 
 def get_certified_rate(df):
