@@ -1,6 +1,7 @@
 import pandas as pd
 
 data_url = 'https://www.dol.gov/sites/dolgov/files/ETA/oflc/pdfs/PERM_Disclosure_Data_FY2023_Q2.xlsx'
+data_url = 'https://www.dol.gov/sites/dolgov/files/ETA/oflc/pdfs/PERM_Disclosure_Data_FY2022_Q4.xlsx'
 
 # Read the data from the URL
 df = pd.read_excel(data_url)
@@ -26,6 +27,17 @@ print(df.groupby('CASE_STATUS')['DECISION_TIME'].mean())
 print(df['DECISION_TIME'].mean())
 # Get statistics about the decision time
 print(df['DECISION_TIME'].describe(percentiles=[0.25, 0.5, 0.75, 0.80, 0.85, 0.9, 0.95, 0.99]))
+#%%
+# Plot the distribution of the decision time
+import matplotlib.pyplot as plt
+import seaborn as sns
+# Plot histpgram of cases status per decision month
+# plt.hist(df, x='DECISION_DATE_month', hue='CASE_STATUS', multiple='stack', log=True)
+# plt.hist([x1, x2], bins=bins, stacked=True,
+#                  color=colors, label=names, density=False)
+df['DECISION_DATE_month'] = df['DECISION_DATE_month'].astype(str).replace('20','', regex=True)
+sns.histplot(df, x='DECISION_DATE_month', hue='CASE_STATUS', multiple='stack')
+plt.show()
 
 #%%
 # Keep only the first 7 character of SOC codes
