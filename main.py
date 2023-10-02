@@ -35,8 +35,9 @@ import seaborn as sns
 # plt.hist(df, x='DECISION_DATE_month', hue='CASE_STATUS', multiple='stack', log=True)
 # plt.hist([x1, x2], bins=bins, stacked=True,
 #                  color=colors, label=names, density=False)
-df['DECISION_DATE_month'] = df['DECISION_DATE_month'].astype(str).replace('20','', regex=True)
+df['DECISION_DATE_month'] = df['DECISION_DATE_month'].astype(str).replace('20', '', regex=True)
 sns.histplot(df, x='DECISION_DATE_month', hue='CASE_STATUS', multiple='stack')
+plt.xticks(fontsize=8)
 plt.show()
 
 #%%
